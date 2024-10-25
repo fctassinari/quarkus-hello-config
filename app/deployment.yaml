@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: quarkus-hello
+    app.kubernetes.io/component: web
+    app.kubernetes.io/instance: quarkus-hello
+    app.kubernetes.io/name: quarkus-hello
+    app.kubernetes.io/part-of: quarkus-hello
+    app.openshift.io/runtime: java
+  name: quarkus-hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-hello
+  template:
+    metadata:
+      labels:
+        app: quarkus-hello
+    spec:
+      containers:
+        - name: quarkus-hello
+          imagePullPolicy: Always
+          image: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
