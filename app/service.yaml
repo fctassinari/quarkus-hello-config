@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: quarkus-hello
-  name: quarkus-hello
+  name: svc-quarkus-hello
 spec:
   ports:
     - name: 8080-tcp

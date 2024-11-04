@@ -3,11 +3,11 @@ kind: Route
 metadata:
   labels:
     app: quarkus-hello
-  name: quarkus-hello
+  name: rt-quarkus-hello
 spec:
   port:
     targetPort: 8080-tcp
   to:
     kind: Service
-    name: quarkus-hello
+    name: svc-quarkus-hello
     weight: 100
